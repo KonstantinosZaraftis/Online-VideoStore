@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace Vindly1.Models
+namespace Vindly1.Dtos
 {
-    public class Customer
+    public class CustomerDto
     {
+
         public int Id { get; set; }
         [Required]
         [StringLength(255)]
@@ -16,10 +16,11 @@ namespace Vindly1.Models
         public bool IsSubscidedToNewsletter { get; set; }
         [Display(Name = "Date of Birth")]
         public DateTime? Birthdate { get; set; }
-        
-        public MembershipType MembershipType { get; set; }
-        
+
         public int MembershipTypeId { get; set; }
+
+
+
 
 
     }
