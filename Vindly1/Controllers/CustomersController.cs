@@ -11,7 +11,7 @@ namespace Vindly1.Controllers
 {
     public class CustomersController : Controller
     {
-        //ApplicationDbContext db = new Models.ApplicationDbContext();
+        
         private ApplicationDbContext _context;
         public CustomersController()
         {
@@ -19,10 +19,7 @@ namespace Vindly1.Controllers
         }
 
 
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-        }
+       
         // GET: Customers
         public ActionResult Index()
         {
@@ -38,73 +35,82 @@ namespace Vindly1.Controllers
         public ActionResult New()
         {
             var membershipTypes = _context.MembershipTypes.ToList();
-            
+
             var viewModel = new NewCustomerViewModel()
             {
-                
                 MembershipTypes = membershipTypes
             };
             return View(viewModel);
         }
 
 
+        //public ActionResult Create()
+        //{
+
+        //    return View();
+        //}
+
         [HttpPost]
         public ActionResult Create(Customer customer)
         {
             if (ModelState.IsValid)
-                _context.Customers.Add(customer);
-            else
-            {
-                var customerInDb = _context.Customers.Single(c => c.Id == customer.Id);
-
-
-                customerInDb.Name = customer.Name;
-                customerInDb.Birthdate = customer.Birthdate;
-                customerInDb.IsSubscidedToNewsletter = customer.IsSubscidedToNewsletter;
-                customerInDb.MembershipTypeId = customer.MembershipTypeId;
-
-            }
+            _context.Customers.Add(customer);
             _context.SaveChanges();
-
             return RedirectToAction("Index", "Customers");
 
-            
+
+
         }
-        public ActionResult Details(int? id)
+       
+
+        public ActionResult Edit(int? id)
         {
-            //var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
-            //if (customer == null)
-            //{
-            //    return HttpNotFound();
-            //}
             if (id == null)
             {
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
             }
-            Customer customer = _context.Customers.Find(id);
+            var customer = _context.Customers.Find(id);
             if (customer == null)
             {
                 return HttpNotFound();
             }
-            return View(customer);
-        }
-
-        public ActionResult Edit(int id)
-        {
-            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
-            if (customer == null)
-            {
-                return HttpNotFound();
-            }
-
             var viewModel = new NewCustomerViewModel()
             {
                 Customer = customer,
                 MembershipTypes = _context.MembershipTypes.ToList()
-
             };
             return View(viewModel);
         }
 
+
+         [HttpPost]
+         public ActionResult Edit(Customer customer)
+         {
+            if (ModelState.IsValid)
+              
+             _context.Entry(customer).State = EntityState.Modified;
+            
+             _context.SaveChanges();
+             return RedirectToAction("Index","Customers");
+            
+            
+         }
+        public ActionResult Details(int? id)
+        {
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+            }
+            Customer customer = _context.Customers.Include(c => c.MembershipType).SingleOrDefault(c => c.Id == id);
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+           
+            return View(customer);
+        }
+
+        
     }
 }

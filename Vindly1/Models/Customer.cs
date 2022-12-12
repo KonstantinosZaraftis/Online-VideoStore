@@ -16,9 +16,11 @@ namespace Vindly1.Models
         public bool IsSubscidedToNewsletter { get; set; }
         [Display(Name = "Date of Birth")]
         public DateTime? Birthdate { get; set; }
-        
+
+
+       
         public MembershipType MembershipType { get; set; }
-        
+        [Display(Name = "MembershipType")]
         public int MembershipTypeId { get; set; }
 
 

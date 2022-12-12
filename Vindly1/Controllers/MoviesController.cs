@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -10,47 +11,97 @@ namespace Vindly1.Controllers
 {
     public class MoviesController : Controller
     {
-        // GET: Movies/Random
-        public ActionResult Random()
+        private ApplicationDbContext _context;
+        public MoviesController()
         {
-            var movie = new Movie() { Name = "top Gun" };
+            _context = new ApplicationDbContext();
+        }
+
+        public ActionResult Index()
+        {
+            var movies = _context.Movies.Include(c => c.Customer).ToList();
+            return View(movies);
+
+        }
 
 
-            var customer = new List<Customer>() {
-                            new Customer(){  Name="Bill"},
-                            new Customer(){  Name="Steve"},
-                            new Customer(){  Name="Ram"},
-                            new Customer(){  Name="Abdul"}
-                        };
 
-            var viewModel = new RandomMovieViewModel()
+
+        public ActionResult NewMovie()
+        {
+            var customers = _context.Customers.ToList();
+
+            var viewModel = new CustomerMovieViewModel
+            {
+                Customers = customers
+            };
+            return View(viewModel);
+
+        }
+
+        //public ActionResult CreateNewMovie()
+        //{
+        //    return View();
+        //}
+
+        [HttpPost]
+        public ActionResult CreateNewMovie([Bind(Include = "Name,IsRental,CustomerId")] Movie movie)
+        {
+            if (ModelState.IsValid)
+                _context.Movies.Add(movie);
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Movies");
+        }
+
+
+        public ActionResult Edit(int? id)
+        {
+
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+            }
+            var movie = _context.Movies.Find(id);
+            if (movie == null)
+            {
+                return HttpNotFound();
+            }
+            var viewModel = new CustomerMovieViewModel()
             {
                 Movie = movie,
-                Customers = customer
+                Customers = _context.Customers.ToList()
+
             };
+            return View(viewModel);
 
-
-            return View(viewModel);//otan to bazoume sto view ousiastika to kanoume rendering
         }
-
-
-        public ActionResult Edit(int id)
+        [HttpPost]
+        public ActionResult Edit(Movie movie)
         {
-            return View();
+            if (ModelState.IsValid)
+
+            _context.Entry(movie).State = EntityState.Modified;
+            _context.SaveChanges();
+             return  RedirectToAction("Index", "Movies");
         }
 
-        public ActionResult Index(int? pageIndex, string sortBy)
+        public ActionResult Details(int? id)
         {
-            if (!pageIndex.HasValue)
+            if (id == null)
             {
-                pageIndex = 1;
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
             }
-            if (String.IsNullOrWhiteSpace(sortBy))
+            var movie = _context.Movies.Include(c => c.Customer).SingleOrDefault(c => c.Id == id);
+            if (movie == null)
             {
-                sortBy = "Name";
+                return HttpNotFound();
             }
 
-            return View();
+            return View(movie);
         }
+
+
     }
 }
+    

@@ -11,8 +11,10 @@ namespace Vindly1
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
+            //routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            //routes.MapRoute("MoviesByReleaseDate",
+            //    "movies/released/{year}/{month}",
+            //    new {controller="Movies", action="ByReleaseDate" });
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

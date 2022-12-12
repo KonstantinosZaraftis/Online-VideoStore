@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Vindly1.Models.Movie>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List of Movies</h2>
+<br />
+<div>
+    @Html.ActionLink("New Movie", "NewMovie", null, new { @class = "btn btn-primary" })
+</div>
+<br />
+<div>
+    <table id="movies" class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(c => c.Name)</th>
+                <th>@Html.DisplayNameFor(c => c.IsRental)</th>
+                <th>Customer Name</th>
+                <th>Edit</th>
+                <th>Delete</th>
+
+
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var movie in Model)
+            {
+                <tr>
+
+                    <td>@Html.ActionLink(movie.Name, "Details", "Movies", new { id = movie.Id })</td>
+                    <td>@Html.DisplayFor(c => movie.IsRental)</td>
+                    <td>@Html.DisplayFor(c => movie.Customer.Name)</td>
+                    <td>@Html.ActionLink("Edit", "Edit", new { id = movie.Id }, new { @class = "btn btn-primary" })</td>
+                    <td id="Mybutton">@Html.ActionLink("Delete", "Delete", new { id = movie.Id }, new { @class = "btn btn-danger" })</td>
+                </tr>
+            }
+        </tbody>
+
+
+    </table>
+
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/jquery-3.4.0.js"></script>
+    <script>
+
+        $(document).ready(function (){
+            $("id").click(function (e){
+                $.ajax({
+                    url: "",
+                    success: function (result, status, xhr) {
+                        $("id").html(result);
+                    }
+
+                });
+            };
+        };
+
+
+
+
+    </script>
+}
+
+

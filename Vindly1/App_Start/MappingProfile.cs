@@ -12,8 +12,8 @@ namespace Vindly1.App_Start
     {
         public MappingProfile()
         {
-            Mapper.CreateMap<Customer, CustomerDto>();
-            Mapper.CreateMap<CustomerDto, Customer>();
+            Mapper.CreateMap<Customer,CustomerDto>();
+            Mapper.CreateMap<CustomerDto,Customer>();
         }
 
 

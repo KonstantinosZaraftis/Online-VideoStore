@@ -1,0 +1,25 @@
+﻿@model Vindly1.Models.Movie
+@{
+  ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+
+    <dl>
+
+        <dt>@Html.DisplayNameFor(model =>model.Name):</dt>
+        <dd>@Html.DisplayFor(model =>model.Name)</dd>
+
+        
+        <dt>@Html.DisplayNameFor(model => model.IsRental):</dt>
+        <dd>@Html.DisplayFor(model => model.IsRental)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Customer):</dt>
+        <dd>@Html.DisplayFor(model => model.Customer.Name)</dd>
+
+    </dl>
+
+    <div>@Html.ActionLink("Back To Movies", "Index")</div>
+</div>

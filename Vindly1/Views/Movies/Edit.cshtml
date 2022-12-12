@@ -1,0 +1,34 @@
+﻿@model Vindly1.ViewModel.CustomerMovieViewModel
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit Movie</h2>
+@using (Html.BeginForm("Edit","Movies"))
+{
+    @Html.HiddenFor(c => c.Movie.Id);
+
+    <div class="form-group">
+        @Html.LabelFor(c=>c.Movie.Name)
+        @Html.TextBoxFor(c => c.Movie.Name, new {@class="form-control"})
+        @Html.ValidationMessageFor(c=>c.Movie.Name)
+    </div>
+
+    <div class="checkbox">
+        <label>
+            @Html.CheckBoxFor(c=>c.Movie.IsRental) IsRental
+        </label>
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(c=>c.Movie.Customer)
+        @Html.DropDownListFor(c=>c.Movie.CustomerId,new SelectList(Model.Customers,"Id","Name"),"Select Customer",new {@class="form-control"})
+    </div>
+    <br />
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Edit</button>
+    </div>
+    <br />
+    <div>@Html.ActionLink("Back To Movies","Index")</div>
+ }
+

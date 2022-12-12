@@ -3,11 +3,26 @@
     ViewBag.Title = "Details";
 }
 
-<h2>@Model.Name</h2>
+<h2>Details</h2>
+<div>
 
-@*<ul>
-    <li>
-        
-    </li>
-</ul>*@
+    <dl>
+
+        <dt>@Html.DisplayNameFor(model=>model.Name):</dt>
+        <dd>@Html.DisplayFor(model=>model.Name)</dd>
+
+        <dt>@Html.DisplayNameFor(model=>model.Birthdate):</dt>
+        <dd>@Html.DisplayFor(model=>model.Birthdate)</dd>
+
+         <dt>@Html.DisplayNameFor(model=>model.IsSubscidedToNewsletter):</dt>
+         <dd>@Html.DisplayFor(model=>model.IsSubscidedToNewsletter)</dd>
+         
+        <dt>@Html.DisplayNameFor(model=>model.MembershipType):</dt>
+        <dd>@Html.DisplayFor(model=>model.MembershipType.Name)</dd>
+
+    </dl>
+
+        <div>@Html.ActionLink("Back To Customers","Index") </div>
+</div>
+
 

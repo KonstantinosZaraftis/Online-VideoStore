@@ -10,8 +10,6 @@ namespace Vindly1.ViewModel
     {
         public IEnumerable<MembershipType> MembershipTypes { get; set; }
         public Customer Customer { get; set; }
-         
-
-
+       
     }
 }
