@@ -9,11 +9,11 @@ using System.Data.Entity;
 
 namespace Vindly1.Controllers
 {
-    public class CustomersController : Controller
+    public class CustomerController : Controller
     {
         
         private ApplicationDbContext _context;
-        public CustomersController()
+        public CustomerController()
         {
             _context = new ApplicationDbContext();
         }
